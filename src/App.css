@@ -424,6 +424,7 @@ body {
   
   .card {
     padding: var(--space-md);
+    padding-top: 40px; /* Extra space to clear logo mark */
     border-width: 1px;
   }
   

@@ -35,7 +35,7 @@ function App() {
       <div className={`card ${loaded ? 'loaded' : ''}`}>
         {/* Logo mark - top left corner */}
         <div className="logo-mark">
-          <img src="/src/assets/DS_LOGO.png" alt="DS" />
+          <img src="/logo.png" alt="DS" />
         </div>
         
         {/* Theme toggle - top right corner */}
