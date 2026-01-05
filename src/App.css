@@ -1,0 +1,500 @@
+/* ============================================
+   BRUTALLY MINIMAL × INDUSTRIAL LANDING PAGE
+   Typography: Space Grotesk + IBM Plex Mono
+   Accent: #FF4500 (industrial orange-red)
+   Philosophy: Every element justifies existence
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Light mode colors */
+  --color-bg: #FFFFFF;
+  --color-text-primary: #000000;
+  --color-text-secondary: #1A1A1A;
+  --color-accent: #FF4500;
+  --color-rule: #E0E0E0;
+  --color-logo-bg: #000000;
+  --color-logo-filter: invert(1) brightness(2);
+  
+  /* Typography scale */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Mono', monospace;
+  
+  /* Spacing system (8px base grid) */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  
+  /* Animation timing */
+  --timing-fast: 0.2s;
+  --timing-base: 0.4s;
+  --timing-slow: 0.6s;
+}
+
+/* Dark mode colors */
+body[data-theme="dark"] {
+  --color-bg: #0A0A0A;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E0E0E0;
+  --color-accent: #FF4500;
+  --color-rule: #2A2A2A;
+  --color-logo-bg: #FFFFFF;
+  --color-logo-filter: invert(0) brightness(1);
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  transition: background-color var(--timing-base) ease-out, color var(--timing-base) ease-out;
+}
+
+/* ============================================
+   CONTAINER & CARD STRUCTURE
+   Intentional asymmetry, hard edges
+   ============================================ */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: 
+    linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.01) 100%);
+}
+
+.card {
+  max-width: 640px;
+  width: 100%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-text-primary);
+  padding: var(--space-lg);
+  position: relative;
+  z-index: 1;
+  
+  /* Subtle texture */
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.01) 2px,
+      rgba(0,0,0,0.01) 4px
+    );
+  
+  /* Staggered reveal animation */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity var(--timing-slow) ease-out,
+    transform var(--timing-slow) ease-out,
+    background-color var(--timing-base) ease-out,
+    border-color var(--timing-base) ease-out;
+}
+
+.card.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   LOGO MARK
+   Clean brand presence - top left
+   ============================================ */
+
+.logo-mark {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 56px;
+  height: 56px;
+  background: var(--color-logo-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-text-primary);
+  
+  /* Appear after card loads */
+  opacity: 0;
+  transform: scale(0.8);
+  animation: logoAppear var(--timing-base) ease-out 0.4s forwards;
+  transition: background-color var(--timing-base) ease-out, border-color var(--timing-base) ease-out;
+}
+
+.logo-mark img {
+  width: 32px;
+  height: auto;
+  display: block;
+  filter: var(--color-logo-filter);
+  transition: filter var(--timing-base) ease-out;
+}
+
+@keyframes logoAppear {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   THEME TOGGLE
+   Minimal control button - top right
+   ============================================ */
+
+.theme-toggle {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 56px;
+  height: 56px;
+  background: var(--color-bg);
+  border: 2px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Remove default button styles */
+  padding: 0;
+  font-family: inherit;
+  
+  /* Transitions */
+  transition: 
+    background-color var(--timing-fast) ease-out,
+    border-color var(--timing-base) ease-out,
+    color var(--timing-base) ease-out,
+    transform var(--timing-fast) ease-out;
+  
+  /* Appear after card loads */
+  opacity: 0;
+  transform: scale(0.8);
+  animation: logoAppear var(--timing-base) ease-out 0.4s forwards;
+}
+
+.theme-toggle:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* ============================================
+   HEADER SECTION
+   Mechanical hierarchy with accent bar
+   ============================================ */
+
+.card-header {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.accent-bar {
+  width: 48px;
+  height: 4px;
+  background: var(--color-accent);
+  margin-bottom: var(--space-md);
+  
+  /* Delayed animation */
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: expandBar var(--timing-base) ease-out 0.5s forwards;
+}
+
+@keyframes expandBar {
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  
+  /* Engineered rhythm */
+  margin: 0;
+  
+  /* Staggered reveal */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp var(--timing-base) ease-out 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   CONTENT SECTION
+   ============================================ */
+
+.card-content {
+  opacity: 0;
+  animation: fadeInUp var(--timing-base) ease-out 0.7s forwards;
+}
+
+.subhead {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-lg);
+  font-weight: 400;
+}
+
+/* ============================================
+   BENEFITS LIST
+   Terminal-style bullets with arrow markers
+   ============================================ */
+
+.benefits {
+  list-style: none;
+  margin-bottom: var(--space-xl);
+}
+
+.benefits li {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.bullet-marker {
+  color: var(--color-accent);
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ============================================
+   CTA BUTTON
+   Machine control panel aesthetic
+   Decisive mechanical feedback
+   ============================================ */
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  
+  /* Styling */
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  border: 2px solid var(--color-text-primary);
+  padding: 18px 32px;
+  
+  /* Typography */
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  text-transform: uppercase;
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: all var(--timing-fast) ease-out;
+  position: relative;
+  overflow: hidden;
+  
+  /* Hard edges */
+  border-radius: 0;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transition: left var(--timing-base) ease-out;
+  z-index: 0;
+}
+
+.cta-button:hover::before {
+  left: 0;
+}
+
+.cta-button:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.cta-text,
+.cta-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-arrow {
+  font-size: 20px;
+  transition: transform var(--timing-fast) ease-out;
+}
+
+.cta-button:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   FOOTER
+   Minimal system status message
+   ============================================ */
+
+.card-footer {
+  margin-top: var(--space-xl);
+  opacity: 0;
+  animation: fadeInUp var(--timing-base) ease-out 0.9s forwards;
+}
+
+.footer-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--color-rule);
+  margin-bottom: var(--space-md);
+}
+
+.footer-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #666666;
+  text-align: center;
+  font-weight: 400;
+}
+
+/* ============================================
+   RESPONSIVE REFINEMENTS
+   Mobile-first approach
+   ============================================ */
+
+@media (max-width: 640px) {
+  :root {
+    --space-lg: 32px;
+    --space-xl: 48px;
+  }
+  
+  .card {
+    padding: var(--space-md);
+    border-width: 1px;
+  }
+  
+  .logo-mark {
+    width: 48px;
+    height: 48px;
+    top: -16px;
+    left: -16px;
+  }
+  
+  .logo-mark img {
+    width: 28px;
+  }
+  
+  .theme-toggle {
+    width: 48px;
+    height: 48px;
+    top: -16px;
+    right: -16px;
+    font-size: 20px;
+  }
+  
+  .headline {
+    font-size: 32px;
+  }
+  
+  .subhead {
+    font-size: 14px;
+  }
+  
+  .benefits li {
+    font-size: 13px;
+  }
+  
+  .cta-button {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 24px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 641px) {
+  .card {
+    /* Intentional offset for asymmetry */
+    margin-left: 8%;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.cta-button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .card,
+  .logo-mark,
+  .theme-toggle {
+    opacity: 1;
+    transform: none;
+  }
+}
